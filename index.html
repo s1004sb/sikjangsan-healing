@@ -3,8 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>식장산 힐링 전망대</title>
-  <meta name="description" content="대전 식장산 전망대에서 바라보는 24시간 하늘 — 실제 시각에 맞춰 해가 뜨고 달이 지고 별이 흐르는 온라인 힐링 공간">
+  <title>식장산 힐링 전망대 | 대전 식장산 실시간 하늘·야경·별 보기</title>
+  <meta name="description" content="대전 식장산(해발 598m) 식장루에서 바라보는 하늘을 24시간 실시간으로. 해돋이와 노을, 대전 야경, 달과 별자리를 보며 소원 풍등을 띄우고 쉬어 가는 온라인 힐링 공간이에요.">
+  <meta name="keywords" content="식장산, 대전 식장산, 식장루, 식장산 야경, 식장산 해돋이, 대전 야경, 대전 힐링, 온라인 힐링, 별 보기, 소원 풍등">
+  <link rel="canonical" href="https://sikjangsan-healing.onrender.com/">
+
+  <!-- 카카오톡·네이버·페이스북 등에 주소를 공유했을 때 보이는 미리보기 -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="식장산 힐링 전망대">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="식장산 힐링 전망대 — 대전 식장산 실시간 하늘">
+  <meta property="og:description" content="식장루에서 바라보는 해돋이·노을·대전 야경·별을 24시간 실시간으로. 소원 풍등을 띄우며 잠시 쉬어 가세요.">
+  <meta property="og:url" content="https://sikjangsan-healing.onrender.com/">
+  <meta property="og:image" content="https://sikjangsan-healing.onrender.com/icons/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="식장산에서 바라본 대전 야경과 보름달, 떠오르는 풍등">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- 검색 엔진이 이 사이트가 무엇인지 이해하도록 돕는 정보 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "식장산 힐링 전망대",
+    "url": "https://sikjangsan-healing.onrender.com/",
+    "inLanguage": "ko",
+    "description": "대전 식장산 식장루에서 바라보는 하늘을 24시간 실시간으로 보여주는 온라인 힐링 공간",
+    "about": {
+      "@type": "TouristAttraction",
+      "name": "식장산",
+      "alternateName": ["食藏山", "대전 식장산"],
+      "description": "대전 동구와 충북 옥천군 경계에 있는 해발 약 598m의 산. 정상 부근 식장루에서 대전 야경이 한눈에 보인다.",
+      "address": { "@type": "PostalAddress", "addressRegion": "대전광역시", "addressLocality": "동구", "addressCountry": "KR" },
+      "geo": { "@type": "GeoCoordinates", "latitude": 36.2885, "longitude": 127.4905 }
+    }
+  }
+  </script>
   <meta name="theme-color" content="#05070f">
   <!-- 휴대폰 홈 화면에 추가하면 앱처럼 열리도록 -->
   <link rel="manifest" href="manifest.webmanifest">
@@ -21,6 +56,9 @@
 </head>
 <body>
   <canvas id="sky" aria-label="식장산 식장루에서 바라본 하늘과 대전 풍경"></canvas>
+  <noscript>
+    <p>식장산 힐링 전망대는 대전 식장산(해발 598m) 식장루에서 바라보는 하늘을 실시간으로 보여주는 온라인 힐링 공간이에요. 해돋이와 노을, 대전 야경, 달과 별자리를 보려면 브라우저에서 자바스크립트를 켜 주세요.</p>
+  </noscript>
 
   <div id="ui">
     <header class="brand glass">

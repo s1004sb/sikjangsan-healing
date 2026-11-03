@@ -1,0 +1,6 @@
+# 검색 엔진(구글, 네이버 등) 안내: 사이트 전체를 수집해도 되고, 내부 API는 빼 주세요.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://sikjangsan-healing.onrender.com/sitemap.xml
