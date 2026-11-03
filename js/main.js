@@ -253,24 +253,43 @@
 
   // ---------- 둘러보기 ----------
   const cv = $('sky');
+  // 손가락이 두 개면 벌리고 오므려서 확대·축소
+  const touches = new Map();
+  let pinch = 0;
+  const pinchDist = () => { const [a, b] = [...touches.values()]; return Math.hypot(a.x - b.x, a.y - b.y); };
+
   cv.addEventListener('pointerdown', (e) => {
-    drag = { x: e.clientX, y: e.clientY, moved: 0 };
+    touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
     cv.setPointerCapture(e.pointerId);
     state.target = null;
+    if (touches.size === 2) { pinch = pinchDist(); if (drag) drag.moved = 99; return; }
+    drag = { x: e.clientX, y: e.clientY, moved: 0 };
   });
   cv.addEventListener('pointermove', (e) => {
+    if (touches.has(e.pointerId)) touches.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (touches.size >= 2) {
+      const d = pinchDist();
+      if (pinch) state.view.zoom = clamp(state.view.zoom * d / pinch, 0.6, 2.6);
+      pinch = d;
+      return;
+    }
     if (!drag) return;
     const dx = e.clientX - drag.x, dy = e.clientY - drag.y, p = Scene.ppd();
     drag.x = e.clientX; drag.y = e.clientY; drag.moved += Math.abs(dx) + Math.abs(dy);
     state.view.az -= dx / p;
     state.view.pitch = clamp(state.view.pitch + dy / p, -8, 75);
   });
-  const endDrag = () => {
-    if (drag && drag.moved < 6 && document.body.classList.contains('zen')) setZen(false);
+  const endDrag = (e) => {
+    touches.delete(e.pointerId);
+    if (touches.size) { pinch = 0; return; } // 한 손가락이 아직 남아 있음
+    if (drag && drag.moved < 6) { // 풍경을 톡 눌렀을 때
+      if (document.body.classList.contains('zen')) setZen(false);
+      else Mobile.closeAll();
+    }
     drag = null;
   };
   cv.addEventListener('pointerup', endDrag);
-  cv.addEventListener('pointercancel', () => { drag = null; });
+  cv.addEventListener('pointercancel', (e) => { touches.delete(e.pointerId); pinch = 0; drag = null; });
   cv.addEventListener('wheel', (e) => {
     e.preventDefault();
     state.view.zoom = clamp(state.view.zoom * Math.exp(-e.deltaY * 0.0012), 0.6, 2.6);
@@ -347,7 +366,9 @@
     };
     window.addEventListener('pointerdown', resume, true);
     window.addEventListener('keydown', resume, true);
-    setTimeout(() => toast('화면을 한 번 누르면 자연의 소리가 이어서 흘러나와요 🍃', 5000), 9500);
+    setTimeout(() => {
+      if ($('btnSound').getAttribute('aria-pressed') !== 'true') toast('화면을 한 번 누르면 자연의 소리가 이어서 흘러나와요 🍃', 5000);
+    }, 9500);
   }
 
   $('btnFull').addEventListener('click', () => {
@@ -365,6 +386,24 @@
       lastUi = 0;
       $('comfortLine').textContent = Comfort.today();
       closeOthers('info');
+      showPhoneUrls();
+    }
+  }
+
+  // 같은 와이파이의 휴대폰에서 들어올 주소 (서버로 열었을 때만)
+  async function showPhoneUrls() {
+    try {
+      const { urls } = await fetch('api/info', { cache: 'no-store' }).then((r) => r.json());
+      const list = $('phoneUrls');
+      list.textContent = '';
+      for (const u of urls) {
+        const li = document.createElement('li');
+        li.textContent = u.replace('http://', '');
+        list.appendChild(li);
+      }
+      $('phoneBox').hidden = !urls.length;
+    } catch (e) {
+      $('phoneBox').hidden = true;
     }
   }
 
@@ -431,6 +470,7 @@
       toast('편안한 밤 되세요. 소리를 천천히 껐어요 🌙', 6000);
     },
   });
+  Mobile.init({ closePanels: () => { closeOthers(null); Lanterns.open(false); } });
   Presence.init({ toast });
   Lanterns.init({ toast });
   MoodDiary.init({ onOpen: () => closeOthers('mood') });

@@ -3,11 +3,12 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 const ROOT = __dirname;
 const PORT = process.env.PORT || 5173;
 const DATA_DIR = path.join(ROOT, 'data');
-const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.json': 'application/json; charset=utf-8', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.m4a': 'audio/mp4', '.wav': 'audio/wav' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.json': 'application/json; charset=utf-8', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.m4a': 'audio/mp4', '.wav': 'audio/wav', '.webmanifest': 'application/manifest+json' };
 
 // ---------- 공통 ----------
 // data/<name>.json에 최근 maxKeep개를 보관하는 저장소
@@ -54,11 +55,18 @@ function readJson(req, res, limit, done) {
   });
 }
 
+// Render 같은 인터넷 서버에서는 요청이 중간 서버(프록시)를 거쳐 오므로, 실제 방문자 주소는 x-forwarded-for에 있음
+const BEHIND_PROXY = !!process.env.RENDER;
+function clientIp(req) {
+  const fwd = BEHIND_PROXY && req.headers['x-forwarded-for'];
+  return fwd ? String(fwd).split(',')[0].trim() : req.socket.remoteAddress || '';
+}
+
 // 같은 접속 주소에서 연달아 쓰는 것 방지
 function cooldown(ms) {
   const last = new Map();
   return (req) => {
-    const ip = req.socket.remoteAddress || '', now = Date.now();
+    const ip = clientIp(req), now = Date.now();
     if (now - (last.get(ip) || 0) < ms) return false;
     last.set(ip, now);
     return true;
@@ -128,8 +136,20 @@ function handlePresence(req, res, leave) {
   });
 }
 
+// ---------- 휴대폰 접속 주소 ----------
+// 같은 와이파이에 연결된 휴대폰에서 이 컴퓨터로 들어올 수 있는 주소
+function lanUrls() {
+  const urls = [];
+  if (BEHIND_PROXY) return urls; // 인터넷 서버에서는 내부 주소가 의미 없음
+  for (const list of Object.values(os.networkInterfaces())) {
+    for (const a of list || []) if (a.family === 'IPv4' && !a.internal) urls.push(`http://${a.address}:${PORT}`);
+  }
+  return urls;
+}
+
 // ---------- 서버 ----------
 const ROUTES = {
+  '/api/info': (req, res) => send(res, 200, { urls: lanUrls() }),
   '/api/guestbook': handleGuestbook,
   '/api/lanterns': handleLanterns,
   '/api/presence': (req, res) => handlePresence(req, res, false),
@@ -137,14 +157,20 @@ const ROUTES = {
 };
 
 http.createServer((req, res) => {
-  const url = decodeURIComponent(req.url.split('?')[0]);
+  let url;
+  try { url = decodeURIComponent(req.url.split('?')[0]); } catch (e) { res.writeHead(400); res.end(); return; } // 잘못된 주소에 서버가 꺼지지 않도록
   if (ROUTES[url]) { ROUTES[url](req, res); return; }
 
   const file = path.join(ROOT, url === '/' ? 'index.html' : url);
-  if (!file.startsWith(ROOT) || file.startsWith(DATA_DIR)) { res.writeHead(403); res.end(); return; }
+  // 저장된 기록(data), 숨김 파일(.git 등), 서버 코드는 내려주지 않음
+  const hidden = url.split('/').some((p) => p.startsWith('.')) || ['/serve.js', '/package.json', '/render.yaml'].includes(url);
+  if (!file.startsWith(ROOT) || file.startsWith(DATA_DIR) || hidden) { res.writeHead(403); res.end(); return; }
   fs.readFile(file, (err, data) => {
     if (err) { res.writeHead(404); res.end('Not found'); return; }
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream' });
     res.end(data);
   });
-}).listen(PORT, () => console.log(`식장산 힐링 전망대: http://localhost:${PORT}`));
+}).listen(PORT, () => {
+  console.log(`식장산 힐링 전망대: http://localhost:${PORT}`);
+  for (const u of lanUrls()) console.log(`휴대폰에서 (같은 와이파이): ${u}`);
+});

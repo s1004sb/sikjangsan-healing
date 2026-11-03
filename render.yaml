@@ -1,0 +1,10 @@
+# Render 배포 설정 — 이 파일이 있으면 Render가 무엇을 어떻게 실행할지 알아서 읽어요.
+services:
+  - type: web
+    name: sikjangsan-healing
+    runtime: node
+    plan: free
+    region: singapore        # 한국에서 가장 가까운 지역
+    buildCommand: echo "설치할 패키지 없음"
+    startCommand: node serve.js
+    healthCheckPath: /

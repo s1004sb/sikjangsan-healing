@@ -6,6 +6,14 @@
   <title>식장산 힐링 전망대</title>
   <meta name="description" content="대전 식장산 전망대에서 바라보는 24시간 하늘 — 실제 시각에 맞춰 해가 뜨고 달이 지고 별이 흐르는 온라인 힐링 공간">
   <meta name="theme-color" content="#05070f">
+  <!-- 휴대폰 홈 화면에 추가하면 앱처럼 열리도록 -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="식장산">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
@@ -88,6 +96,23 @@
         </div>
       </footer>
     </div>
+
+    <!-- 휴대폰 화면: 엄지로 누르기 쉬운 아래 탭 막대 (각 탭은 위의 버튼을 대신 눌러 줌) -->
+    <div id="moreSheet" class="more-sheet glass" aria-hidden="true">
+      <button class="more-btn" data-click="btnBreath"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="8" opacity=".55"/></svg>숨 고르기</button>
+      <button class="more-btn" data-click="btnMood"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8.5" r="3"/><path d="M8.5 2.5v1M2.5 8.5h1M4.3 4.3l.7.7M12.7 4.3l-.7.7"/><path d="M9 19.5h8.5a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9 1.8A2.7 2.7 0 0 0 9 19.5z"/></svg>마음 날씨</button>
+      <button class="more-btn" data-click="btnGuest"><svg viewBox="0 0 24 24"><path d="M5 19.5h14M14.5 4.5l3 3L9 16H6v-3z"/></svg>방명록</button>
+      <button class="more-btn" data-click="btnInfo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.6v.1"/></svg>식장산 이야기</button>
+      <button class="more-btn" data-click="btnFull"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>전체 화면</button>
+      <button class="more-btn" data-click="btnZen"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>풍경만 보기</button>
+    </div>
+    <nav id="tabbar" class="tabbar glass" aria-label="메뉴">
+      <button id="tabSound" class="tab" data-click="btnSound" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>소리</button>
+      <button id="tabMusic" class="tab" data-click="btnMusic" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M9 17.5V5.5l10-2v12"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>음악</button>
+      <button id="tabLantern" class="tab" data-click="btnLantern"><svg viewBox="0 0 24 24"><path d="M7.5 6.5Q12 4 16.5 6.5L15 17H9z"/><path d="M12 13.5v1.5M10 20h4"/></svg>풍등</button>
+      <button id="tabTime" class="tab"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>시간·방향</button>
+      <button id="tabMore" class="tab"><svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18" cy="12" r="1.2"/></svg>더보기</button>
+    </nav>
   </div>
 
   <aside id="panel" class="panel glass" aria-hidden="true">
@@ -111,6 +136,13 @@
       <div><dt>해 위치</dt><dd id="tSunAlt">—</dd></div>
       <div><dt>달 위치</dt><dd id="tMoonAlt">—</dd></div>
     </dl>
+
+    <h3>휴대폰으로 보기</h3>
+    <div id="phoneBox" class="phone-box">
+      <p>휴대폰을 이 컴퓨터와 <b>같은 와이파이</b>에 연결하고, 휴대폰 브라우저 주소창에 아래 주소를 입력하세요.</p>
+      <ul id="phoneUrls" class="phone-urls"></ul>
+      <p class="note">휴대폰에서 연 뒤 '홈 화면에 추가'를 하면 앱처럼 쓸 수 있어요. 자세한 방법은 <a href="사용설명서.html" target="_blank" rel="noopener">사용설명서</a>에 있어요.</p>
+    </div>
 
     <h3>보기 설정</h3>
     <div class="opts">
@@ -246,6 +278,7 @@
   <script src="js/presence.js"></script>
   <script src="js/lanterns.js"></script>
   <script src="js/mood.js"></script>
+  <script src="js/mobile.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

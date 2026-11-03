@@ -1,0 +1,16 @@
+{
+  "name": "식장산 힐링 전망대",
+  "short_name": "식장산",
+  "description": "대전 식장산에서 바라보는 24시간 하늘 — 해·달·별, 대전 야경, 소원 풍등",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#05070f",
+  "theme_color": "#05070f",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

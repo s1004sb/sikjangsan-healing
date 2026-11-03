@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>식장산 힐링 전망대 사용설명서</title>
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070b1c;
+      --card: #10162e;
+      --line: rgba(255, 255, 255, .1);
+      --text: #e9edf9;
+      --muted: #a9b2cc;
+      --accent: #ffd29a;
+      --accent2: #9ec5ff;
+      --serif: 'Gowun Batang', serif;
+      --sans: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 70% -10%, #2a2c5e 0%, var(--bg) 55%) fixed, var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+    header { text-align: center; margin-bottom: 36px; }
+    header img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 10px 40px rgba(0, 0, 0, .5); }
+    h1 { font-family: var(--serif); font-size: clamp(28px, 6vw, 38px); margin: 18px 0 6px; }
+    h1 em { font-style: normal; color: var(--accent); font-weight: 400; }
+    header p { color: var(--muted); margin: 0; }
+    nav.toc { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 22px 0 8px; }
+    nav.toc a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid var(--line);
+    }
+    nav.toc a:hover { background: rgba(255, 255, 255, .12); }
+    section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 26px 24px;
+      margin: 18px 0;
+    }
+    h2 { font-family: var(--serif); font-size: 23px; margin: 0 0 14px; }
+    h2 span { margin-right: 8px; }
+    h3 { font-size: 16px; color: var(--accent); margin: 22px 0 8px; }
+    p { margin: 8px 0; }
+    ol, ul { padding-left: 22px; margin: 8px 0; }
+    li { margin: 4px 0; }
+    b { color: #fff; font-weight: 500; }
+    code {
+      font-family: Consolas, 'D2Coding', monospace;
+      background: rgba(255, 255, 255, .08);
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--accent);
+      word-break: break-all;
+    }
+    .tip {
+      background: rgba(255, 210, 154, .08);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 10px 14px;
+      margin: 14px 0;
+      font-size: 15px;
+    }
+    .tip.blue { background: rgba(158, 197, 255, .08); border-color: var(--accent2); }
+    .table-wrap { overflow-x: auto; margin: 10px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; font-size: 13px; white-space: nowrap; }
+    td:first-child { white-space: nowrap; }
+    .steps { counter-reset: s; list-style: none; padding: 0; }
+    .steps li { counter-increment: s; position: relative; padding-left: 40px; margin: 12px 0; }
+    .steps li::before {
+      content: counter(s);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 210, 154, .16);
+      color: var(--accent);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .two > div { background: rgba(255, 255, 255, .04); border-radius: 14px; padding: 14px 16px; }
+    .two h3 { margin-top: 0; }
+    footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 36px; }
+    a { color: var(--accent); }
+    @media (max-width: 600px) {
+      main { padding-top: 32px; }
+      section { padding: 20px 16px; border-radius: 16px; }
+      .two { grid-template-columns: 1fr; }
+      td:first-child { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icons/icon-192.png" alt="">
+    <h1>식장산 <em>힐링 전망대</em></h1>
+    <p>사용설명서 · 컴퓨터와 휴대폰에서 쓰는 법</p>
+    <nav class="toc">
+      <a href="#what">이게 뭐예요?</a>
+      <a href="#start">켜는 방법</a>
+      <a href="#phone">휴대폰으로 보기</a>
+      <a href="#screen">화면 둘러보기</a>
+      <a href="#mobile-ui">휴대폰 화면</a>
+      <a href="#gifts">작은 선물들</a>
+      <a href="#data">기록 저장</a>
+      <a href="#github">GitHub</a>
+      <a href="#help">이럴 땐</a>
+    </nav>
+  </header>
+
+  <section id="what">
+    <h2><span>🏔️</span>이게 뭐예요?</h2>
+    <p>대전 식장산 꼭대기의 누각 <b>식장루</b>에 서 있다고 상상해 보세요. 그 자리에서 보이는 하늘과 대전 풍경을 화면 안에 그대로 옮긴 곳이에요.</p>
+    <ul>
+      <li><b>지금 이 순간의 진짜 하늘이에요.</b> 실제 시계에 맞춰 해가 뜨고 지고, 달은 오늘의 진짜 모양으로 떠요. 별자리도 지금 식장산 위 그 자리에 있어요.</li>
+      <li><b>진짜 날씨가 반영돼요.</b> 지금 식장산에 구름이 끼면 화면에도 구름이 끼고, 비가 오면 빗줄기가 내려요.</li>
+      <li><b>혼자가 아니에요.</b> 지금 몇 명이 함께 보고 있는지 보이고, 다른 사람이 띄운 소원 풍등도 하늘에 떠올라요.</li>
+    </ul>
+  </section>
+
+  <section id="start">
+    <h2><span>💻</span>켜는 방법 (컴퓨터)</h2>
+    <ol class="steps">
+      <li>내 컴퓨터에 저장해 둔 <code>식장산힐링전망대</code> 폴더를 열어요.</li>
+      <li>폴더 위쪽의 <b>주소창</b>(경로가 적힌 곳)을 클릭하고 <code>cmd</code>라고 입력한 뒤 Enter를 눌러요. 검은 창이 열려요.</li>
+      <li>검은 창에 <code>node serve.js</code>를 입력하고 Enter를 눌러요.</li>
+      <li><code>식장산 힐링 전망대: http://localhost:5173</code>이라는 글자가 나오면 성공이에요. 그 아래 <code>휴대폰에서 (같은 와이파이): …</code> 주소는 휴대폰으로 볼 때 써요.</li>
+      <li>크롬 같은 브라우저 주소창에 <code>localhost:5173</code>을 입력해요.</li>
+    </ol>
+    <div class="tip">💡 <b>검은 창은 닫지 마세요.</b> 그 창이 '서버'예요. 방명록과 풍등을 저장하고, 함께 보는 사람 수를 세는 역할을 해요. 다 쓰고 나면 그때 닫으면 돼요.</div>
+    <div class="tip blue">🛡️ 처음 켤 때 <b>Windows 보안 경고</b>(방화벽) 창이 뜰 수 있어요. 휴대폰으로도 보려면 <b>개인 네트워크</b>에 체크하고 <b>허용</b>을 눌러 주세요.</div>
+  </section>
+
+  <section id="phone">
+    <h2><span>📱</span>휴대폰으로 보기</h2>
+    <p>휴대폰에서 <code>localhost</code>를 치면 열리지 않아요. <code>localhost</code>는 '이 기기 자신'이라는 뜻이라서, 휴대폰에서는 휴대폰 자기 자신을 가리키거든요. 대신 <b>컴퓨터의 주소</b>로 들어가요.</p>
+    <ol class="steps">
+      <li>컴퓨터에서 서버를 켜 둬요. (위의 '켜는 방법')</li>
+      <li>휴대폰을 컴퓨터와 <b>같은 와이파이</b>에 연결해요.</li>
+      <li>컴퓨터 화면에서 오른쪽 <b>ⓘ 식장산 이야기</b>를 열면 <b>'휴대폰으로 보기'</b>에 주소가 나와요. 예: <code>192.168.0.5:5173</code> (검은 창에도 같은 주소가 적혀 있어요.)</li>
+      <li>휴대폰 브라우저(사파리, 크롬, 삼성 인터넷) 주소창에 그 주소를 그대로 입력해요.</li>
+    </ol>
+
+    <h3>홈 화면에 앱처럼 추가하기</h3>
+    <div class="two">
+      <div>
+        <h3>🍎 아이폰 (사파리)</h3>
+        <ol>
+          <li>사파리로 주소에 들어가요.</li>
+          <li>아래쪽 <b>공유 버튼</b>(네모에 위쪽 화살표)을 눌러요.</li>
+          <li><b>홈 화면에 추가</b>를 눌러요.</li>
+          <li>홈 화면의 <b>식장산</b> 아이콘을 누르면 주소창 없이 꽉 찬 화면으로 열려요.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>🤖 갤럭시 (크롬·삼성 인터넷)</h3>
+        <ol>
+          <li>브라우저로 주소에 들어가요.</li>
+          <li>오른쪽 위(또는 아래) <b>⋮ / ≡ 메뉴</b>를 눌러요.</li>
+          <li><b>홈 화면에 추가</b>를 눌러요.</li>
+          <li>홈 화면의 <b>식장산</b> 아이콘으로 바로 들어갈 수 있어요.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="tip">💡 휴대폰으로 보는 동안에도 <b>컴퓨터의 서버(검은 창)는 켜져 있어야</b> 해요. 컴퓨터를 끄거나 다른 와이파이로 가면 열리지 않아요. 집 밖에서도 보려면 인터넷 서버에 올려야 하는데, 원하시면 그것도 도와드릴 수 있어요.</div>
+  </section>
+
+  <section id="screen">
+    <h2><span>🖥️</span>화면 둘러보기 (컴퓨터)</h2>
+
+    <h3>📋 왼쪽 위 카드</h3>
+    <ul>
+      <li><b>LIVE</b>는 지금 실제 시각이라는 뜻이에요. 시간 여행 중일 때는 '시간 여행 중'으로 바뀌어요.</li>
+      <li>날짜와 시각 아래에 <b>지금 하늘의 분위기</b>가 한 줄로 나와요. 예: "노을이 대전 시내를 붉게 물들이고 있어요"</li>
+      <li>유성우나 보름달 같은 <b>특별한 하늘 소식</b>이 있는 날엔 🌠 한 줄이 더 생겨요.</li>
+      <li>맨 아래에 <b>"지금 3명이 함께 식장산 하늘을 보고 있어요"</b>처럼 함께 보는 사람 수가 나와요.</li>
+    </ul>
+
+    <h3>🔘 오른쪽 아이콘 9개 (위에서부터)</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>아이콘</th><th>하는 일</th></tr>
+        <tr><td>🔊 자연의 소리</td><td>바람, 새, 풀벌레, 부엉이 소리. 비가 오면 빗소리도 나요. 끄기 전까지 계속 흐르고, 켜 둔 채 떠나면 다음에 화면을 한 번 누를 때 이어서 흘러요.</td></tr>
+        <tr><td>🎵 클래식 음악</td><td>짐노페디, 바흐 프렐류드, 캐논, 자장가, 작은 별, 엘리제를 위하여. 피아노·오르골·하프 소리를 고르고, 15·30·60분 잠들기 타이머도 있어요.</td></tr>
+        <tr><td>◎ 숨 고르기</td><td>동그라미를 따라 4초 들이쉬고, 2초 멈추고, 6초 내쉬어요. 화면을 누르면 닫혀요.</td></tr>
+        <tr><td>🏮 소원 풍등</td><td>소원을 적으면 풍등이 발밑에서 떠올라 10분 동안 멀리 날아가요. 다른 사람들의 하늘에도 떠올라요.</td></tr>
+        <tr><td>🌤️ 마음 날씨</td><td>오늘 마음을 맑음·구름 조금·흐림·비·천둥·무지개로 남겨요. 한 달 달력에 모여요.</td></tr>
+        <tr><td>✏️ 방명록</td><td>한 줄 글을 남기면 다른 사람 화면의 하늘에도 잠시 떠올라요.</td></tr>
+        <tr><td>ⓘ 식장산 이야기</td><td>오늘의 한 줄, 하늘 소식, 일출·일몰 시각, 휴대폰 접속 주소, 보기 설정이 있어요.</td></tr>
+        <tr><td>⛶ 전체 화면</td><td>화면을 꽉 채워요.</td></tr>
+        <tr><td>👁️ 풍경만 보기</td><td>메뉴를 다 숨겨요. 화면을 한 번 누르면 다시 나와요.</td></tr>
+      </table>
+    </div>
+
+    <h3>🧭 아래쪽 버튼들</h3>
+    <ul>
+      <li><b>해돋이 방향 · 대전 야경 · 달 찾기 · 북극성</b>: 누르면 그쪽으로 고개를 돌려줘요.</li>
+      <li><b>시간 막대</b>: 끌어서 하루 중 원하는 시각으로 가 봐요. 막대 색깔이 그날의 하늘색이에요.</li>
+      <li><b>1× · 60× · 600× · 3600×</b>: 시간이 흐르는 빠르기예요. 3600×로 하면 하루가 24초 만에 지나가요.</li>
+      <li><b>일출 · 한낮 · 일몰 · 한밤</b>: 그 시간으로 바로 가요. 일출과 일몰은 조금 전부터 60배 빠르게 보여줘요.</li>
+      <li><b>실시간</b>: 지금 이 순간으로 돌아와요.</li>
+    </ul>
+
+    <h3>🖱️ 직접 둘러보기</h3>
+    <ul>
+      <li>화면을 <b>좌우로 끌면</b> 사방을 둘러봐요.</li>
+      <li><b>아래로 끌면</b> 고개를 들어 밤하늘을 올려다봐요.</li>
+      <li><b>마우스 휠</b>로 가까이 또는 멀리 볼 수 있어요.</li>
+      <li>키보드: <code>← → ↑ ↓</code> 둘러보기, <code>+ −</code> 확대, <code>H</code> 메뉴 숨기기, <code>L</code> 실시간으로.</li>
+    </ul>
+  </section>
+
+  <section id="mobile-ui">
+    <h2><span>👆</span>휴대폰 화면</h2>
+    <p>휴대폰으로 열면 엄지로 쓰기 편하게 화면이 자동으로 바뀌어요. 오른쪽 아이콘 대신 <b>아래 탭 막대</b>가 생겨요.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>탭</th><th>하는 일</th></tr>
+        <tr><td>🔊 소리</td><td>자연의 소리 켜기·끄기 (켜지면 탭이 노랗게 빛나요)</td></tr>
+        <tr><td>🎵 음악</td><td>클래식 음악 목록이 아래에서 올라와요.</td></tr>
+        <tr><td>🏮 풍등</td><td>소원 풍등 띄우기</td></tr>
+        <tr><td>🕐 시간·방향</td><td>시간 막대, 빠르기, 일출·일몰 바로가기, 바라보는 방향 버튼이 올라와요.</td></tr>
+        <tr><td>⋯ 더보기</td><td>숨 고르기, 마음 날씨, 방명록, 식장산 이야기, 전체 화면, 풍경만 보기</td></tr>
+      </table>
+    </div>
+    <ul>
+      <li>한 손가락으로 <b>밀면</b> 둘러보고, 두 손가락을 <b>벌리거나 오므리면</b> 확대·축소해요.</li>
+      <li>열려 있는 창은 <b>풍경을 톡 누르면</b> 닫혀요.</li>
+      <li>휴대폰을 <b>가로로</b> 눕히면 더 넓은 하늘을 볼 수 있어요.</li>
+    </ul>
+    <div class="tip">🔈 휴대폰이 <b>무음(진동) 모드</b>면 아이폰에서는 소리가 안 날 수 있어요. 옆면 스위치를 확인해 주세요.</div>
+  </section>
+
+  <section id="gifts">
+    <h2><span>🎁</span>숨어 있는 작은 선물들</h2>
+    <ul>
+      <li><b>들어올 때마다</b> 화면 가운데에 '오늘의 한 줄' 위로의 글귀가 떠올라요. 날마다 바뀌고, 같은 날 온 사람은 모두 같은 글을 봐요.</li>
+      <li>밤에 <b>별똥별</b>이 떨어지면 "소원을 빌어보세요 ✨" 알림이 떠요. 유성우 날엔 훨씬 많이 떨어져요.</li>
+      <li><b>계절</b>마다 풍경이 바뀌어요. 봄엔 벚꽃잎, 여름밤엔 반딧불이, 가을엔 단풍잎, 겨울엔 산등성이에 눈이 쌓여요.</li>
+      <li><b>해 질 녘</b>엔 대전 시내 불빛이 하나둘 켜지고, <b>새벽 1~5시</b>엔 조금씩 꺼져요.</li>
+      <li>식장루 처마의 <b>등불</b>과 송신탑의 <b>빨간 불빛</b>이 밤에 깜빡여요.</li>
+    </ul>
+  </section>
+
+  <section id="data">
+    <h2><span>🗂️</span>내 기록은 어디에 저장돼요?</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>무엇</th><th>어디에</th><th>누가 봐요?</th></tr>
+        <tr><td>방명록, 소원 풍등</td><td>폴더 안 <code>data</code> 폴더</td><td>들어온 모든 사람</td></tr>
+        <tr><td>마음 날씨</td><td>지금 쓰는 브라우저 안</td><td>나만 (기기마다 따로)</td></tr>
+        <tr><td>소리 켜짐, 보기 설정</td><td>지금 쓰는 브라우저 안</td><td>나만 (기기마다 따로)</td></tr>
+        <tr><td>함께 보는 사람 수</td><td>서버 메모리</td><td>저장되지 않아요</td></tr>
+      </table>
+    </div>
+    <div class="tip">💾 <code>data</code> 폴더에는 소중한 소원과 글이 들어 있어요. 컴퓨터를 옮기거나 정리할 때 <b>함께 백업</b>해 두세요. GitHub에는 올리지 않았어요.</div>
+  </section>
+
+  <section id="github">
+    <h2><span>🐙</span>GitHub</h2>
+    <ul>
+      <li>주소: <a href="https://github.com/s1004sb/sikjangsan-healing" target="_blank" rel="noopener">github.com/s1004sb/sikjangsan-healing</a> (공개 저장소)</li>
+      <li>프로그램 코드만 올라가 있어요. 개인 이메일은 가렸고, 소원·방명록 기록은 빠져 있어요.</li>
+      <li>고친 내용을 다시 올리고 싶으면 Claude에게 <b>"깃허브에 업데이트해줘"</b>라고 말하면 돼요.</li>
+      <li>비공개로 바꾸려면 저장소의 <b>Settings → 맨 아래 Danger Zone → Change visibility</b>에서 바꿀 수 있어요.</li>
+    </ul>
+  </section>
+
+  <section id="help">
+    <h2><span>🧰</span>이럴 땐 이렇게</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>이런 일이 생기면</th><th>이렇게 해 보세요</th></tr>
+        <tr><td>화면이 안 열려요</td><td>검은 창(서버)이 켜져 있는지 확인해요. 닫았다면 '켜는 방법'을 다시 해요.</td></tr>
+        <tr><td>휴대폰에서 안 열려요</td><td>① 같은 와이파이인지 ② 서버가 켜져 있는지 ③ 주소 끝에 <code>:5173</code>을 붙였는지 ④ Windows 방화벽에서 허용했는지 확인해요.</td></tr>
+        <tr><td>방명록이나 풍등이 안 써져요</td><td>파일을 더블클릭해서 열었다면, 꼭 <code>localhost:5173</code>(휴대폰은 컴퓨터 주소)로 들어가요.</td></tr>
+        <tr><td>소리가 안 나요</td><td>화면을 한 번 눌러 주세요. 브라우저는 사람이 한 번 눌러야 소리를 낼 수 있어요. 휴대폰은 무음 모드도 확인해요.</td></tr>
+        <tr><td>날씨가 맑게만 나와요</td><td>인터넷이 끊겼거나, ⓘ 설정에서 '실제 날씨 반영'이 꺼져 있을 수 있어요.</td></tr>
+        <tr><td>풍등이 금방 안 떠요</td><td>같은 사람은 20초에 한 번 띄울 수 있어요. 잠시 뒤 다시 해 보세요.</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    식장산 하늘 아래에서 편안한 시간 보내세요 🌙<br>
+    <a href="index.html">전망대로 돌아가기</a>
+  </footer>
+</main>
+</body>
+</html>
