@@ -46,9 +46,25 @@ const Guestbook = (() => {
       meta.className = 'meta';
       meta.textContent = `${e.name} · ${SKY_LABEL[e.sky] || ''} · ${ago(e.at)}`;
       li.append(msg, meta);
+      if (Admin.isAdmin()) { // 관리자는 광고·스팸 글을 지울 수 있음
+        const del = document.createElement('button');
+        del.className = 'link danger';
+        del.textContent = '삭제';
+        del.addEventListener('click', () => removeEntry(e));
+        li.appendChild(del);
+      }
       list.appendChild(li);
     }
     entries.forEach((e) => seen.add(e.id));
+  }
+
+  async function removeEntry(e) {
+    if (!confirm('이 방명록 글을 지울까요? 지운 글은 되돌릴 수 없어요.')) return;
+    try {
+      await Admin.post('api/admin/delete', { kind: 'guestbook', id: e.id });
+      entries = entries.filter((x) => x.id !== e.id);
+      render();
+    } catch (err) { alert(err.message); }
   }
 
   async function load() {
@@ -145,6 +161,7 @@ const Guestbook = (() => {
     });
     $('btnGuest').addEventListener('click', () => open(!isOpen));
     $('guestClose').addEventListener('click', () => open(false));
+    document.addEventListener('adminchange', render);
     load();
     setInterval(() => { if (!isOpen) load(); }, 60000);
     floatTimer = setTimeout(floatNext, 12000);

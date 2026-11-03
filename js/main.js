@@ -312,7 +312,7 @@
       case '-': v.zoom = clamp(v.zoom / 1.15, 0.6, 2.6); break;
       case 'h': case 'H': setZen(!document.body.classList.contains('zen')); break;
       case 'l': case 'L': goLive(); break;
-      case 'Escape': closeOthers(null); Lanterns.open(false); closeBreath(); break;
+      case 'Escape': closeOthers(null); Lanterns.open(false); Likes.open(false); closeBreath(); break;
       default: return;
     }
     e.preventDefault();
@@ -413,6 +413,7 @@
     guest: { isOpen: () => Guestbook.isOpen(), close: () => Guestbook.open(false) },
     music: { isOpen: () => Music.isOpen(), close: () => Music.open(false) },
     mood: { isOpen: () => MoodDiary.isOpen(), close: () => MoodDiary.open(false) },
+    qna: { isOpen: () => QnA.isOpen(), close: () => QnA.open(false) },
   };
   function closeOthers(keep) {
     for (const [k, p] of Object.entries(PANELS)) if (k !== keep && p.isOpen()) p.close();
@@ -470,10 +471,12 @@
       toast('편안한 밤 되세요. 소리를 천천히 껐어요 🌙', 6000);
     },
   });
-  Mobile.init({ closePanels: () => { closeOthers(null); Lanterns.open(false); } });
+  Mobile.init({ closePanels: () => { closeOthers(null); Lanterns.open(false); Likes.open(false); } });
   Presence.init({ toast });
   Lanterns.init({ toast });
   MoodDiary.init({ onOpen: () => closeOthers('mood') });
+  QnA.init({ toast, onOpen: () => closeOthers('qna') });
+  Likes.init({ toast });
   Comfort.welcome();
   Guestbook.init({
     opts: state.opts,

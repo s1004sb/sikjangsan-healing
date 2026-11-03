@@ -73,6 +73,7 @@
       <p id="mood" class="mood">—</p>
       <p id="skyEvent" class="sky-event" hidden></p>
       <p id="together" class="together" hidden><i aria-hidden="true"></i><span></span></p>
+      <button id="btnLike" class="like-btn" type="button" hidden aria-label="좋아요 남기기"><span class="heart">♡</span> 좋아요 <span class="n">0</span></button>
     </header>
 
     <div class="tools">
@@ -95,6 +96,9 @@
         </button>
         <button id="btnGuest" class="icon" title="방명록" aria-label="방명록" aria-pressed="false">
           <svg viewBox="0 0 24 24"><path d="M5 19.5h14M14.5 4.5l3 3L9 16H6v-3z"/></svg>
+        </button>
+        <button id="btnQna" class="icon" title="주인에게 묻기 · 아이디어" aria-label="주인에게 묻기와 아이디어 제안" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-8l-4.5 3.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z"/><path d="M9 9.2h6M9 12.2h4"/></svg>
         </button>
         <button id="btnInfo" class="icon" title="식장산 이야기 · 설정" aria-label="식장산 이야기와 설정">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.6v.1"/></svg>
@@ -142,6 +146,7 @@
       <button class="more-btn" data-click="btnBreath"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="8" opacity=".55"/></svg>숨 고르기</button>
       <button class="more-btn" data-click="btnMood"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8.5" r="3"/><path d="M8.5 2.5v1M2.5 8.5h1M4.3 4.3l.7.7M12.7 4.3l-.7.7"/><path d="M9 19.5h8.5a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9 1.8A2.7 2.7 0 0 0 9 19.5z"/></svg>마음 날씨</button>
       <button class="more-btn" data-click="btnGuest"><svg viewBox="0 0 24 24"><path d="M5 19.5h14M14.5 4.5l3 3L9 16H6v-3z"/></svg>방명록</button>
+      <button id="moreQna" class="more-btn" data-click="btnQna"><svg viewBox="0 0 24 24"><path d="M5 5h14a1.5 1.5 0 0 1 1.5 1.5v8A1.5 1.5 0 0 1 19 16h-8l-4.5 3.5V16H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 5z"/><path d="M9 9.2h6M9 12.2h4"/></svg>주인에게 묻기</button>
       <button class="more-btn" data-click="btnInfo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.6v.1"/></svg>식장산 이야기</button>
       <button class="more-btn" data-click="btnFull"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>전체 화면</button>
       <button class="more-btn" data-click="btnZen"><svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>풍경만 보기</button>
@@ -280,6 +285,75 @@
     <p class="note">마음 날씨는 이 브라우저에만 저장돼요. 다른 사람에게는 보이지 않아요.</p>
   </aside>
 
+  <aside id="qnaPanel" class="panel side-left glass" aria-hidden="true">
+    <button id="qnaClose" class="close" aria-label="닫기">×</button>
+    <h2>주인에게 묻기</h2>
+    <p class="lead">궁금한 점, 이런 게 있으면 좋겠다는 아이디어, 불편한 점을 편하게 남겨 주세요. 주인이 직접 읽고 답해요. 답변이 달리면 이 브라우저에서 알려 드려요.</p>
+
+    <h3>자주 묻는 질문</h3>
+    <div class="faq">
+      <details><summary>첫 화면이 늦게 떠요</summary><p>무료 서버라서 15분 동안 아무도 오지 않으면 잠들어요. 다음 사람이 들어올 때 깨어나느라 30초~1분 걸려요. 고장이 아니니 조금만 기다려 주세요.</p></details>
+      <details><summary>소리가 안 나요</summary><p>브라우저는 사람이 화면을 한 번 눌러야 소리를 낼 수 있어요. 화면을 한 번 누르고 🔊 버튼을 켜 주세요. 아이폰은 옆면 무음 스위치도 확인해 주세요.</p></details>
+      <details><summary>하늘이 정말 실제와 같아요?</summary><p>네. 해·달·별의 위치와 달 모양은 식장산 좌표로 실시간 천문 계산을 하고, 구름·비·눈은 식장산의 실제 날씨(Open-Meteo)를 받아 그려요. 산 모양과 도시 불빛은 분위기를 살린 그림이에요.</p></details>
+      <details><summary>휴대폰 앱으로 쓸 수 있나요?</summary><p>휴대폰으로 연 뒤 '홈 화면에 추가'를 하면 앱처럼 쓸 수 있어요. 아이폰은 사파리 공유 버튼, 갤럭시는 브라우저 메뉴(⋮)에 있어요.</p></details>
+      <details><summary>마음 날씨는 다른 사람이 볼 수 있나요?</summary><p>아니요. 마음 날씨는 지금 쓰는 브라우저에만 저장되고 서버로 보내지 않아요.</p></details>
+      <details><summary>비밀글은 누가 볼 수 있나요?</summary><p>글을 쓴 사람(같은 브라우저)과 주인만 볼 수 있어요. 다른 브라우저나 기기에서는 내 비밀글도 '비밀글'로만 보여요.</p></details>
+      <details><summary>실제 식장산에 가 보고 싶어요</summary><p>식장산은 대전 동구에 있어요. 개방 시간과 교통편은 계절마다 달라질 수 있으니 대전 동구청 등에서 최신 정보를 확인해 주세요.</p></details>
+    </div>
+
+    <h3>글 남기기</h3>
+    <form id="qnaForm" class="guest-form" autocomplete="off">
+      <div class="cat-pick" role="radiogroup" aria-label="글 종류">
+        <label><input type="radio" name="qnaCat" value="question" checked><span>❓ 질문</span></label>
+        <label><input type="radio" name="qnaCat" value="idea"><span>💡 아이디어</span></label>
+        <label><input type="radio" name="qnaCat" value="report"><span>🛠️ 불편해요</span></label>
+      </div>
+      <input id="qnaName" type="text" maxlength="12" placeholder="이름 (비워 두면 익명의 산책자)" aria-label="이름">
+      <textarea id="qnaText" maxlength="500" rows="4" placeholder="주인에게 하고 싶은 말" aria-label="내용" required></textarea>
+      <label class="check"><input type="checkbox" id="qnaPrivate"> 🔒 비밀글 (나와 주인만 볼 수 있어요)</label>
+      <div class="guest-row">
+        <span id="qnaCount" class="count">0 / 500</span>
+        <button type="submit" id="qnaSend" class="send">남기기</button>
+      </div>
+      <p id="qnaStatus" class="status" role="status"></p>
+      <p class="note">연락처·주소 같은 개인정보는 적지 말아 주세요.</p>
+    </form>
+
+    <h3>주고받은 이야기 <small id="qnaTotal"></small></h3>
+    <ul id="qnaList" class="qna-list"></ul>
+
+    <div class="admin-bar">
+      <button id="adminOpen" class="link" type="button">관리자</button>
+      <form id="adminLogin" class="admin-login" hidden autocomplete="off">
+        <input id="adminPw" type="password" placeholder="관리자 비밀번호" aria-label="관리자 비밀번호" autocomplete="current-password">
+        <button type="submit" class="send">들어가기</button>
+        <p id="adminStatus" class="status" role="status"></p>
+      </form>
+      <p id="adminOn" class="admin-on" hidden>🔑 관리자로 들어와 있어요 <button id="adminOff" class="link" type="button">나가기</button></p>
+    </div>
+  </aside>
+
+  <div id="likeModal" class="modal" hidden>
+    <div class="modal-card like-card glass">
+      <button id="likeClose" class="close" type="button" aria-label="닫기">×</button>
+      <h2>♥ 좋아요</h2>
+      <form id="likeForm" autocomplete="off">
+        <p class="lead">식장산 전망대에서 어떤 점이 좋았나요? 여러 개 골라도 돼요.</p>
+        <div id="likePick" class="chips"></div>
+        <input id="likeComment" type="text" maxlength="60" placeholder="한 줄 남기기 (선택) · 예: 노을 보면서 마음이 편해졌어요" aria-label="한 줄 남기기">
+        <p id="likeStatus" class="status error" role="status"></p>
+        <div class="modal-row"><span></span><button type="submit" id="likeSend" class="send">좋아요 보내기</button></div>
+      </form>
+      <div id="likeThanks" class="like-thanks" hidden>
+        <p>좋아요를 보내 주셔서 고마워요 ♥ 덕분에 더 좋은 전망대를 만들 수 있어요.</p>
+        <button id="likeAgain" class="link" type="button">한 번 더 남기기</button>
+      </div>
+      <h3 id="likeTotal"></h3>
+      <div id="likeBars" class="like-bars"></div>
+      <ul id="likeComments" class="like-comments"></ul>
+    </div>
+  </div>
+
   <div id="lanternModal" class="modal" hidden>
     <form id="lanternForm" class="modal-card glass" autocomplete="off">
       <h2>소원 풍등</h2>
@@ -314,7 +388,10 @@
   <script src="js/scene.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/music.js"></script>
+  <script src="js/admin.js"></script>
   <script src="js/guestbook.js"></script>
+  <script src="js/qna.js"></script>
+  <script src="js/likes.js"></script>
   <script src="js/presence.js"></script>
   <script src="js/lanterns.js"></script>
   <script src="js/mood.js"></script>
