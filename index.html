@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>식장산 힐링 전망대</title>
+  <meta name="description" content="대전 식장산 전망대에서 바라보는 24시간 하늘 — 실제 시각에 맞춰 해가 뜨고 달이 지고 별이 흐르는 온라인 힐링 공간">
+  <meta name="theme-color" content="#05070f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="sky" aria-label="식장산 식장루에서 바라본 하늘과 대전 풍경"></canvas>
+
+  <div id="ui">
+    <header class="brand glass">
+      <div class="brand-top">
+        <h1>식장산 <em>힐링 전망대</em></h1>
+        <span id="liveBadge" class="badge live">LIVE</span>
+      </div>
+      <p class="sub">대전 동구 · 해발 598m · 식장루에서 바라보는 하늘</p>
+      <div id="clock" class="clock">—</div>
+      <p id="mood" class="mood">—</p>
+      <p id="skyEvent" class="sky-event" hidden></p>
+      <p id="together" class="together" hidden><i aria-hidden="true"></i><span></span></p>
+    </header>
+
+    <div class="tools">
+      <div id="weather" class="chip glass">날씨 불러오는 중…</div>
+      <div class="icon-row glass">
+        <button id="btnSound" class="icon" title="자연의 소리" aria-label="자연의 소리" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>
+        </button>
+        <button id="btnMusic" class="icon" title="클래식 음악" aria-label="클래식 음악" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M9 17.5V5.5l10-2v12"/><circle cx="6.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="15.5" r="2.5"/></svg>
+        </button>
+        <button id="btnBreath" class="icon" title="숨 고르기" aria-label="숨 고르기">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="8" opacity=".55"/></svg>
+        </button>
+        <button id="btnLantern" class="icon" title="소원 풍등 띄우기" aria-label="소원 풍등 띄우기">
+          <svg viewBox="0 0 24 24"><path d="M7.5 6.5Q12 4 16.5 6.5L15 17H9z"/><path d="M12 13.5v1.5M10 20h4"/></svg>
+        </button>
+        <button id="btnMood" class="icon" title="마음 날씨" aria-label="마음 날씨" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><circle cx="8.5" cy="8.5" r="3"/><path d="M8.5 2.5v1M2.5 8.5h1M4.3 4.3l.7.7M12.7 4.3l-.7.7"/><path d="M9 19.5h8.5a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9 1.8A2.7 2.7 0 0 0 9 19.5z"/></svg>
+        </button>
+        <button id="btnGuest" class="icon" title="방명록" aria-label="방명록" aria-pressed="false">
+          <svg viewBox="0 0 24 24"><path d="M5 19.5h14M14.5 4.5l3 3L9 16H6v-3z"/></svg>
+        </button>
+        <button id="btnInfo" class="icon" title="식장산 이야기 · 설정" aria-label="식장산 이야기와 설정">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.6v.1"/></svg>
+        </button>
+        <button id="btnFull" class="icon" title="전체 화면" aria-label="전체 화면">
+          <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        </button>
+        <button id="btnZen" class="icon" title="풍경만 보기 (H)" aria-label="메뉴 숨기고 풍경만 보기">
+          <svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <nav class="dirbar glass" aria-label="바라보는 방향">
+        <button data-dir="sunrise">해돋이 방향</button>
+        <button data-dir="city">대전 야경</button>
+        <button data-dir="moon">달 찾기</button>
+        <button data-dir="polaris">북극성</button>
+        <span id="facing" class="facing">—</span>
+      </nav>
+      <footer class="timebar glass">
+        <button id="btnLive" class="pill on">실시간</button>
+        <div class="slider">
+          <input id="timeSlider" type="range" min="0" max="1439" step="1" aria-label="하루 중 시각">
+          <div class="ticks"><span>0시</span><span>6시</span><span>12시</span><span>18시</span><span>24시</span></div>
+        </div>
+        <div class="seg" id="speeds" aria-label="시간 흐름 속도">
+          <button data-speed="1">1×</button>
+          <button data-speed="60">60×</button>
+          <button data-speed="600">600×</button>
+          <button data-speed="3600">3600×</button>
+        </div>
+        <div class="seg" id="jumps" aria-label="시간 바로가기">
+          <button data-jump="sunrise">일출</button>
+          <button data-jump="noon">한낮</button>
+          <button data-jump="sunset">일몰</button>
+          <button data-jump="night">한밤</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <aside id="panel" class="panel glass" aria-hidden="true">
+    <button id="panelClose" class="close" aria-label="닫기">×</button>
+    <h2>식장산 이야기</h2>
+    <p class="lead">식장산(食藏山)은 대전 동구와 충북 옥천군의 경계에 솟은 해발 약 598m의 산으로, 대전에서 가장 높은 산이에요. 정상 부근의 전망대와 전통 누각 <b>식장루</b>에서는 대전 시내가 한눈에 내려다보여 대전 최고의 야경 명소로 꼽혀요.</p>
+
+    <h3>오늘의 한 줄</h3>
+    <p id="comfortLine" class="comfort-line"></p>
+
+    <h3>하늘 소식</h3>
+    <ul id="skyNews" class="sky-news"></ul>
+
+    <h3>오늘의 하늘 <small id="skyDate"></small></h3>
+    <dl class="sky-table">
+      <div><dt>일출</dt><dd id="tRise">—</dd></div>
+      <div><dt>일몰</dt><dd id="tSet">—</dd></div>
+      <div><dt>월출</dt><dd id="tMoonRise">—</dd></div>
+      <div><dt>월몰</dt><dd id="tMoonSet">—</dd></div>
+      <div><dt>달 모양</dt><dd id="tPhase">—</dd></div>
+      <div><dt>해 위치</dt><dd id="tSunAlt">—</dd></div>
+      <div><dt>달 위치</dt><dd id="tMoonAlt">—</dd></div>
+    </dl>
+
+    <h3>보기 설정</h3>
+    <div class="opts">
+      <label><input type="checkbox" id="optLabels"> 산·지명 표시</label>
+      <label><input type="checkbox" id="optConst"> 별자리 선과 별 이름</label>
+      <label><input type="checkbox" id="optPan"> 천천히 둘러보기</label>
+      <label><input type="checkbox" id="optWeather"> 실제 날씨 반영</label>
+      <label><input type="checkbox" id="optFloat"> 방명록 글 하늘에 띄우기</label>
+      <label class="vol">소리 크기 <input type="range" id="optVol" min="0" max="100"></label>
+    </div>
+
+    <h3>둘러보는 법</h3>
+    <ul class="howto">
+      <li>화면을 끌어서 사방을 둘러보고, 위로 끌면 밤하늘을 올려다볼 수 있어요.</li>
+      <li>마우스 휠로 가까이·멀리 볼 수 있어요.</li>
+      <li>아래 막대로 하루 중 원하는 시각으로 가 보거나, 60×·3600×로 하루를 빠르게 흘려보세요.</li>
+      <li>키보드: ← → ↑ ↓ 둘러보기, + − 확대, H 메뉴 숨기기, L 실시간으로.</li>
+    </ul>
+
+    <h3>식장산 알아보기</h3>
+    <ul class="facts">
+      <li><b>이름의 유래</b> — 백제가 신라와 맞서던 시절 이곳에 군량을 많이 쌓아 두었다는 이야기와, 먹을 것이 끝없이 나오는 밥그릇을 묻었다는 전설이 전해져요.</li>
+      <li><b>풍경</b> — 서쪽으로는 대전 도심과 멀리 계룡산 능선이, 동쪽으로는 옥천의 겹겹 산줄기가 펼쳐져요. 새해에는 해맞이 명소로도 붐벼요.</li>
+      <li><b>송신탑</b> — 정상부에 방송 송신탑이 서 있어 대전 어디서든 식장산을 알아볼 수 있어요.</li>
+      <li><b>산자락</b> — 고산사, 구절사 같은 절과 세천유원지 등이 있어 가볍게 걷기 좋아요.</li>
+    </ul>
+    <p class="note">산 정보는 공개된 자료를 바탕으로 정리했어요. 실제 방문 전에는 대전 동구청 등에서 개방 시간과 교통 정보를 꼭 확인하세요. 해·달·별의 위치는 식장산 좌표로 실시간 천문 계산해 그리고, 날씨는 Open-Meteo 자료를 사용해요.</p>
+  </aside>
+
+  <aside id="guestbook" class="panel guestbook glass" aria-hidden="true">
+    <button id="guestClose" class="close" aria-label="닫기">×</button>
+    <h2>방명록</h2>
+    <p class="lead">식장산에 다녀간 마음을 한 줄 남겨 주세요. 남긴 글은 이곳을 찾는 다른 사람들의 하늘에도 잠시 떠올라요.</p>
+    <form id="guestForm" class="guest-form" autocomplete="off">
+      <input id="guestName" type="text" maxlength="12" placeholder="이름 (비워 두면 익명의 산책자)" aria-label="이름">
+      <textarea id="guestMsg" maxlength="140" rows="3" placeholder="지금 이 풍경 앞에서 떠오르는 말" aria-label="남길 말" required></textarea>
+      <div class="guest-row">
+        <span id="guestCount" class="count">0 / 140</span>
+        <button type="submit" id="guestSubmit" class="send">남기기</button>
+      </div>
+      <p id="guestStatus" class="status" role="status"></p>
+    </form>
+    <h3>남겨진 마음 <small id="guestTotal"></small></h3>
+    <ul id="guestList" class="guest-list"></ul>
+  </aside>
+
+  <section id="musicPanel" class="music glass" aria-hidden="true" aria-label="음악">
+    <button id="musicClose" class="close" aria-label="닫기">×</button>
+    <div class="m-now">
+      <div class="m-info">
+        <p id="mTitle" class="m-title">—</p>
+        <p id="mSub" class="m-sub"></p>
+      </div>
+      <div class="m-ctrl">
+        <button id="mPrev" aria-label="이전 곡">⏮</button>
+        <button id="mPlay" class="m-play" aria-label="재생">▶</button>
+        <button id="mNext" aria-label="다음 곡">⏭</button>
+      </div>
+    </div>
+    <div class="m-progress"><div id="mBar"></div></div>
+    <div class="m-time"><span id="mPos"></span><span id="mDur"></span></div>
+    <ul id="mList" class="m-list"></ul>
+    <div class="m-opts">
+      <div class="m-row"><span>음색</span>
+        <div class="seg" id="mTimbre"><button data-v="piano">피아노</button><button data-v="musicbox">오르골</button><button data-v="harp">하프</button></div>
+      </div>
+      <div class="m-row"><span>반복</span>
+        <div class="seg" id="mRepeat"><button data-v="all">이어 듣기</button><button data-v="one">한 곡 반복</button></div>
+      </div>
+      <div class="m-row"><span>잠들기</span>
+        <div class="seg" id="mSleep"><button data-v="0">끔</button><button data-v="15">15분</button><button data-v="30">30분</button><button data-v="60">60분</button></div>
+      </div>
+      <p id="mSleepLeft" class="m-note"></p>
+    </div>
+    <p class="m-note">모든 클래식 곡은 작곡가 사후 70년이 지나 저작권이 끝난 퍼블릭 도메인 작품이에요. 녹음 파일 없이 이 페이지가 악보를 직접 연주하기 때문에 음원 저작권 걱정도 없어요.</p>
+  </section>
+
+  <aside id="moodPanel" class="panel side-left glass" aria-hidden="true">
+    <button id="moodClose" class="close" aria-label="닫기">×</button>
+    <h2>마음 날씨</h2>
+    <p class="lead">오늘 내 마음의 하늘은 어떤가요? 하루에 하나씩 남기면 한 달의 내 하늘이 모여요.</p>
+    <form id="moodForm" class="mood-form">
+      <div id="moodPick" class="mood-pick"></div>
+      <input id="moodNote" type="text" maxlength="60" placeholder="한 줄 메모 (선택)" aria-label="한 줄 메모">
+      <button type="submit" class="send">오늘의 마음 남기기</button>
+      <p id="moodReply" class="status" role="status"></p>
+    </form>
+    <div class="cal-nav">
+      <button id="moodPrev" aria-label="이전 달">‹</button>
+      <h3 id="moodMonth"></h3>
+      <button id="moodNext" aria-label="다음 달">›</button>
+    </div>
+    <div id="moodCal" class="cal"></div>
+    <p id="moodSummary" class="note"></p>
+    <p class="note">마음 날씨는 이 브라우저에만 저장돼요. 다른 사람에게는 보이지 않아요.</p>
+  </aside>
+
+  <div id="lanternModal" class="modal" hidden>
+    <form id="lanternForm" class="modal-card glass" autocomplete="off">
+      <h2>소원 풍등</h2>
+      <p class="lead">소원을 적으면 풍등이 식장산 하늘로 올라가요. 다른 사람들의 하늘에도 잠시 떠올라요.</p>
+      <input id="lanternWish" type="text" maxlength="40" placeholder="이루어졌으면 하는 소원 한 가지" aria-label="소원">
+      <p id="lanternStatus" class="status error" role="status"></p>
+      <div class="modal-row">
+        <span id="lanternCount" class="count"></span>
+        <div>
+          <button type="button" id="lanternCancel" class="ghost">닫기</button>
+          <button type="submit" id="lanternSend" class="send">띄우기</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="comfort" class="comfort" role="status"><small>오늘의 한 줄</small><p></p></div>
+
+  <div id="floatMsg" class="float-msg" aria-hidden="true"></div>
+
+  <div id="breath" class="breath" hidden>
+    <div class="breath-ring"><div class="breath-core"></div></div>
+    <p id="breathText">들이마셔요</p>
+    <small>화면을 누르면 닫혀요</small>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/astro.js"></script>
+  <script src="js/skyevents.js"></script>
+  <script src="js/comfort.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/music.js"></script>
+  <script src="js/guestbook.js"></script>
+  <script src="js/presence.js"></script>
+  <script src="js/lanterns.js"></script>
+  <script src="js/mood.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

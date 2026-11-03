@@ -1,0 +1,11 @@
+# 방문자가 남긴 방명록·풍등 기록 (개인적인 글이라 저장소에 올리지 않음)
+data/
+
+# 내 음악 폴더에 넣은 음원 파일 (목록과 안내만 올림)
+music/*
+!music/playlist.json
+!music/README.md
+
+node_modules/
+.DS_Store
+Thumbs.db
